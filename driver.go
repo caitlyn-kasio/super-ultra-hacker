@@ -10,25 +10,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/gdamore/tcell"
-	"github.com/tview/tview"
+// 	"github.com/gdamore/tcell"
+	"github.com/rivo/tview"
 )
 
 func main() {
-	// Create a new application
-	app := tview.NewApplication()
-
-	// Create a new screen
-	screen := tview.NewScreen()
-
-	// Set the screen for the application
-	app.SetScreen(screen)
-
-	// Start the application
-	if err := app.Run(); err != nil {
-		fmt.Println("Application exited with error:", err)
+	
+	fmt.Println("Executing")
+	boxframe := tview.NewBox().
+		SetBorder(true).
+		SetTitle("Keyboard Tester")
+	if err := tview.NewApplication().SetRoot(boxframe, true).Run(); err != nil {
+		panic(err)
 	}
-
-	// Clean up
-	screen.Close()
+	
+	newbox := boxframe.tview.NewBox().
+		SetBorder(true)
 }
