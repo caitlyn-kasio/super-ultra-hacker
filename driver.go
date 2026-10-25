@@ -10,20 +10,40 @@ package main
 
 import (
 	"fmt"
-// 	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
 )
 
 func main() {
-	
-	fmt.Println("Executing")
-	boxframe := tview.NewBox().
+	// Create a new application
+	app := tview.NewApplication()
+
+	// Create a new screen
+	screen := tview.NewScreen()
+
+	// Create a grid layout
+	grid := tview.NewGrid().SetBorders(true)
+
+	// Add the main content window to the grid
+	mainWindow := tview.NewTextView().
 		SetBorder(true).
-		SetTitle("Keyboard Tester")
-	if err := tview.NewApplication().SetRoot(boxframe, true).Run(); err != nil {
-		panic(err)
+		SetTitle("Main Content")
+	grid.SetCell(0, 0, mainWindow, tview.Grid{}.DefaultSize())
+
+	// Add the keybindings row to the grid
+	keybindingsRow := tview.NewTextView().
+		SetBorder(true).
+		SetTitle("Keybindings")
+	grid.SetCell(1, 0, keybindingsRow, tview.Grid{}.DefaultSize())
+
+	// Set the grid for the application
+	app.SetRoot(grid, true)
+
+	// Start the application
+	if err := app.Run(); err != nil {
+		fmt.Println("Application exited with error:", err)
 	}
-	
-	newbox := boxframe.tview.NewBox().
-		SetBorder(true)
+
+	// Clean up
+	screen.Close()
 }
