@@ -8,12 +8,11 @@ import (
 	"github.com/rivo/tview"
 )
 
-func redraw(){
+func redraw(app *tview.Application){
 	
 	// Redraw the app once a second
 	ticker := time.NewTicker(1 * time.Second)
 	for range ticker.C {
-			// AI! This is reading as undefined. Please fix
 		app.Draw()
 	}
 }
@@ -56,7 +55,7 @@ func main() {
 		fmt.Println("Application exited with error:", err)
 	}
 
-	go redraw()
+	go redraw(app)
 	// Clean up
 // 	screen.Close()
 }
