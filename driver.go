@@ -29,7 +29,9 @@ func main() {
 		SetText("Menu bar down here!")
 	
 	// Create a grid layout
-	grid := tview.NewGrid().SetBorders(true)
+	grid := tview.NewGrid().SetBorders(true).
+		SetRows(6).
+		SetColumns(6)
 
 	// Add the main content window to the grid
 	grid.AddItem(emptyBox, 0, 0, 2, 3, 1, 3, false)
