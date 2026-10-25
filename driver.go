@@ -32,8 +32,8 @@ func main() {
 	grid := tview.NewGrid().SetBorders(true)
 
 	// Add the main content window to the grid
-	grid.AddItem(emptyBox,1,0,2,1,1,3,false)
-	grid.AddItem(menuBar, 3,0,3,1,0,3,false)
+	grid.AddItem(emptyBox, 0, 0, 2, 3, 1, 3, false)
+	grid.AddItem(menuBar, 2, 0, 1, 3, 0, 0, false)
 	
 	// Set the grid for the application
 	app.SetRoot(grid, true)
