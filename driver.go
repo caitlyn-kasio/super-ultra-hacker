@@ -20,8 +20,6 @@ func main() {
 	// Grab variables
 	now := time.Now().Format(time.RFC3339)
 	
-	
-	
 	// Create a new application
 	app := tview.NewApplication()
 
