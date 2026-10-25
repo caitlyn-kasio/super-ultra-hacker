@@ -4,5 +4,16 @@
 
 //Written in go, duh. Can probably fit everything in one file, or maybe a driver and a library of modules to load?
 
-//AI! Import tview, and write a basic tui program. Dont need it to do anhythhing just display a screen
+//AI! Import tview, and write a basic tui program. Dont need it to do anhything just display a screen.
 
+package main
+
+import(
+	"fmt"
+	"rivo/tview"
+)
+
+
+fn main(){
+	fmt.print("Hi")
+}
