@@ -10,6 +10,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 // 	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
 )
@@ -23,7 +24,8 @@ func main() {
 
 	//Initialize modules for grid
 	emptyBox := tview.NewTextView().
-		SetText("skudgfskdjghskjdg")
+		SetDynamic(true).
+		SetText("0")
 	menuBar := tview.NewTextView().
 		SetTextAlign(tview.AlignCenter).
 		SetText("Menu bar down here!")
