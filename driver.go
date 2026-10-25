@@ -1,28 +1,20 @@
-// IDEA!!! Keyboard tester with a tui, throws a bunch of screens to interact with but mostly its just for typing.
-// Maybe an actual keyboard test mode?? Scancodes/ASCII
-// or a screensaver mode?
-
-//Written in go, duh. Can probably fit everything in one file, or maybe a driver and a library of modules to load.
-
+// Written in go, duh. Can probably fit everything in one file, or maybe a driver and a library of modules to load.
 
 package main
 
 import (
 	"fmt"
 	"time"
-// 	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
 )
 
 func redraw(){
 	
-	//AI! Clean this up. This should redraw once a second.
-	now := time.Now()
-	while true:
-		if now != time.Now():
-			now := time.Now()
-			app.draw()
-	
+	// Redraw the app once a second
+	ticker := time.NewTicker(1 * time.Second)
+	for range ticker.C {
+		app.Draw()
+	}
 }
 
 
