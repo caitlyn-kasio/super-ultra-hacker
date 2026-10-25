@@ -10,7 +10,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gdamore/tcell"
+// 	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
 )
 
@@ -19,23 +19,22 @@ func main() {
 	app := tview.NewApplication()
 
 	// Create a new screen
-	screen := tview.NewScreen()
+// 	screen := tview.NewScreen()
 
+	//Initialize modules for grid
+	emptyBox := tview.NewTextView().
+		SetText("skudgfskdjghskjdg")
+	menuBar := tview.NewTextView().
+		SetTextAlign(tview.AlignCenter).
+		SetText("Menu bar down here!")
+	
 	// Create a grid layout
 	grid := tview.NewGrid().SetBorders(true)
 
 	// Add the main content window to the grid
-	mainWindow := tview.NewTextView().
-		SetBorder(true).
-		SetTitle("Main Content")
-	grid.SetCell(0, 0, mainWindow, tview.Grid{}.DefaultSize())
-
-	// Add the keybindings row to the grid
-	keybindingsRow := tview.NewTextView().
-		SetBorder(true).
-		SetTitle("Keybindings")
-	grid.SetCell(1, 0, keybindingsRow, tview.Grid{}.DefaultSize())
-
+	grid.AddItem(emptyBox,1,0,2,1,1,3,false)
+	grid.AddItem(menuBar, 3,0,3,1,0,3,false)
+	
 	// Set the grid for the application
 	app.SetRoot(grid, true)
 
@@ -45,5 +44,5 @@ func main() {
 	}
 
 	// Clean up
-	screen.Close()
+// 	screen.Close()
 }
