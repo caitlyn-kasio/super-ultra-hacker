@@ -4,15 +4,16 @@ package main
 
 import (
 	"fmt"
+	"strings"
+	"unicode"
+
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
-	"time"
+	//	"github.com/gdamore/tcell"
+	//
+	// "time"
 )
 
-func updateTime(app *tview.Application){
-	app.QueueUpdateDraw(func(){
-		app.emptyBox.SetText("wow look!!!")
-	})
-}
 
 func main() {	
 	// Grab variables
@@ -27,7 +28,10 @@ func main() {
 	//Initialize modules for grid
 	emptyBox := tview.NewTextView().
 // 		SetTextAlign(tview.AlignCenter.
-		SetText("skdhgskhdgkhsdgkdsg")
+		SetScrollable(false).
+		SetText("skdhgskhdgkhsdgkdsg")	
+		
+	
 
 	menuBar := tview.NewTextView().
 		SetTextAlign(tview.AlignCenter).
@@ -41,7 +45,49 @@ func main() {
 	// Add the main content window to the grid
 	grid.AddItem(emptyBox, 0, 0, 2, 3, 1, 3, false)
 	grid.AddItem(menuBar, 2, 0, 1, 3, 0, 0, false)
+
 	
+	// Testing text writing as was hoped.
+	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
+	slicedText := strings.Split(textToBreak, " ")
+	fmt.Print(slicedText)
+	loadedText := ""
+	
+	
+	// Unbind default keys
+	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
+		switch event.Rune(){
+			case 'j':
+				return tcell.NewEventKey(tcell.KeyRune, 'j', tcell.ModNone)
+			case 'k':
+				return tcell.NewEventKey(tcell.KeyRune, 'k', tcell.ModNone)
+		}			
+		return event		
+	})
+	
+	
+	// Handles inputs
+	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		if event.Key() == tcell.KeyRune{
+			key := event.Rune()
+			if unicode.IsLetter(key) || unicode.IsDigit(key) {
+						
+				
+			// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
+			loadedText += slicedText[0]
+			loadedText += " "
+			slicedText = slicedText[1:]							
+			// Load the array into the textbox
+			emptyBox.SetText(loadedText)
+				
+			}
+		}
+			
+		return event
+	})
+	
+	
+		
 	// Set the grid for the application
 	app.SetRoot(grid, true)
 
@@ -50,7 +96,6 @@ func main() {
 		fmt.Println("Application exited with error:", err)
 	}
 
-	go updateTime(app)
 
 	// Clean up
 // 	screen.Close()
