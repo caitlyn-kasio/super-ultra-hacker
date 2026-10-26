@@ -1,4 +1,8 @@
-// Written in go, duh. Can probably fit everything in one file, or maybe a driver and a library of modules to load.
+//So from here.
+// Need to move text input/word writing logic to a separate function and add error handling. We want this to import text and text styling, so creating a class and instaciating at runtime is the best option.
+//Figure out why vim navigation is still working and stop it
+//Start writing modules to load?
+//Polish and style
 
 package main
 
@@ -23,22 +27,28 @@ func main() {
 
 	//Initialize modules for grid
 	emptyBox := tview.NewTextView().
-// 		SetTextAlign(tview.AlignCenter).
-		SetText("skdhgskhdgkhsdgkdsg")		
+		SetText("skdhgskhdgkhsdgkdsg")	
 		
-// 	emptyBox.SetBorder(true)
+	box2 := tview.NewTextView().
+		SetText("Wow look box2!")	
+		
 		
 	
 	menuBar := tview.NewTextView().
+		SetText("Ctrl+C to exit.")
 	// 	menuBar.SetBorder(true)
-		SetTitle("Keybindings")
 		
 	
 	// Create a grid layout
 	grid := tview.NewGrid().
 		SetBorders(true).
-		AddItem(menuBar, 8, 0, 1, 1, 0, 0, false).
-		AddItem(emptyBox, 0, 0, 9, 1, 0, 0, false)
+		SetRows(3, 0, 3).
+		SetColumns(30, 0, 30).
+			//RowInt, ColumnInt, RowSpan Int, ColSpan Int, MinGrid Height, MinGridWidth, Focus
+		AddItem(menuBar, 2, 0, 1, 10, 0, 0, false).
+		AddItem(tview.NewGrid(), 0,0,2,10,0,0,false).
+			AddItem(emptyBox, 0, 0, 2, 4, 0, 0, false).
+			AddItem(box2, 0,4,2,6,0,0,false)
 		
 		
 		
