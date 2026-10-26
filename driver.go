@@ -27,7 +27,9 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 	app := application
 	
 		// Testing text writing as was hoped.
-	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
+// 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
+
+	textToBreak := module.textToType
 	slicedText := strings.Split(textToBreak, " ")
 // 	fmt.Print(slicedText)
 	loadedText := ""
@@ -40,7 +42,10 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 				// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
 			
 				
-				// AI! Please add error handling on these three lines to print when slicedText is out of strings as opposed to crashing	
+				if len(slicedText) == 0 {
+// 					fmt.Println("No more words to type")
+					return nil
+				}
 				loadedText += slicedText[0]
 				loadedText += " "
 				slicedText = slicedText[1:]					
@@ -104,7 +109,7 @@ func main() {
 	// Load primitives into struct
 	
 	var boxStruct module
-	boxStruct.textToType = "wowvsjdgfvsdakjg"
+	boxStruct.textToType = "wowvsjdgfvsdakjg sad abskhfgahf ashf gakhg akhfg akshfg aksjg akjfgakuyfg ydufg iygu ksdgh kdsugkds ghsk g"
 	boxStruct.appRef = map[string]tview.Primitive{
 		"test":emptyBox,
 	}
