@@ -26,18 +26,22 @@ func main() {
 // 		SetTextAlign(tview.AlignCenter).
 		SetText("skdhgskhdgkhsdgkdsg")		
 		
-	emptyBox.SetBorder(true)
+// 	emptyBox.SetBorder(true)
 		
 	
-	menuBar := tview.NewTextView()
-	menuBar.SetBorder(true).SetTitle("Keybindings")
+	menuBar := tview.NewTextView().
+	// 	menuBar.SetBorder(true)
+		SetTitle("Keybindings")
 		
 	
 	// Create a grid layout
+	//AI! Move the menubar to the bottom of the screen, with only about 10% of screen space, and give the rest to emptyBox
 	grid := tview.NewGrid().
 		SetBorders(true).
-		AddItem(menuBar, 0, 0, 1, 1, 0, 0, "Menu").
-		AddItem(emptyBox, 0, 1, 1, 1, 0, 0, "Empty").
+		AddItem(menuBar, 1, 0, 1, 1, 0, 0, false).
+		AddItem(emptyBox, 3, 0, 3, 1, 0, 0, false)
+		
+		
 		
 	// Testing text writing as was hoped.
 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
