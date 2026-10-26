@@ -33,17 +33,12 @@ func main() {
 	menuBar.SetBorder(true).SetTitle("Keybindings")
 		
 	
-	// Create a flex layout
-	flex := tview.NewFlex().SetDirection(tview.FlexRow).
+	// Create a grid layout
+	grid := tview.NewGrid().
+		SetBorders(true).
+		AddItem(menuBar, 0, 0, 1, 1, 0, 0, "Menu").
+		AddItem(emptyBox, 0, 1, 1, 1, 0, 0, "Empty").
 		
-	flex.AddItem(menuBar, 5, 1, false).
-	flex.AddItem(tview.NewFlex().SetDirection(tview.FlexRow)).
-		SetBorder(true)
-// 		AddItem(emptyBox, 1, 1, false)
-			
-
-
-	
 	// Testing text writing as was hoped.
 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
 	slicedText := strings.Split(textToBreak, " ")
@@ -85,8 +80,8 @@ func main() {
 	
 	
 		
-	// Set the flex for the application
-	app.SetRoot(flex, true)
+	// Set the grid for the application
+	app.SetRoot(grid, true)
 
 	// Start the application
 	if err := app.Run(); err != nil {
