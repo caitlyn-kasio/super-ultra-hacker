@@ -35,11 +35,10 @@ func main() {
 		
 	
 	// Create a grid layout
-	//AI! Move the menubar to the bottom of the screen, with only about 10% of screen space, and give the rest to emptyBox
 	grid := tview.NewGrid().
 		SetBorders(true).
-		AddItem(menuBar, 1, 0, 1, 1, 0, 0, false).
-		AddItem(emptyBox, 3, 0, 3, 1, 0, 0, false)
+		AddItem(menuBar, 8, 0, 1, 1, 0, 0, false).
+		AddItem(emptyBox, 0, 0, 9, 1, 0, 0, false)
 		
 		
 		
