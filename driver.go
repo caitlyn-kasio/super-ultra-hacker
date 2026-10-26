@@ -50,12 +50,14 @@ func main() {
 	// Set the grid for the application
 	app.SetRoot(grid, true)
 
+	// Start the redraw ticker before running the app
+	go redraw(app)
+
 	// Start the application
 	if err := app.Run(); err != nil {
 		fmt.Println("Application exited with error:", err)
 	}
 
-	go redraw(app)
 	// Clean up
 // 	screen.Close()
 }
