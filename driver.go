@@ -14,8 +14,58 @@ import (
 )
 
 
-func main() {	
-	// Grab variables
+type module struct{
+	name string
+	textToType string
+	appRef map[string]tview.Primitive
+}
+
+
+func moduleKeyInput(application *tview.Application, moduleIn module){
+	
+	module := moduleIn
+	app := application
+	
+		// Testing text writing as was hoped.
+	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
+	slicedText := strings.Split(textToBreak, " ")
+// 	fmt.Print(slicedText)
+	loadedText := ""
+	
+	// Handles key capture
+	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
+		switch event.Rune(){
+				//Alphas get captured to simulate typing
+			case 'a','b','c','d','e','f','g','i','m','n','o','p','q','r','s','t','u','v','w','x','y','z','h','j','k','l':
+				// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
+			
+				
+				// AI! Please add error handling on these three lines to print when slicedText is out of strings as opposed to crashing	
+				loadedText += slicedText[0]
+				loadedText += " "
+				slicedText = slicedText[1:]					
+				
+				// This mutates the primitive type used by the module struct, allowing the SetText function		
+				if module, err := module.appRef["test"].(*tview.TextView); err {
+// 					fmt.Println("boxStuct sucessfully set to TextView
+
+					module.SetText(loadedText)
+				}
+			
+				//Return nil is important to prevent default key behavior	
+				return nil
+		}			
+		return event		
+	})
+	
+}
+
+
+
+func main() {
+		
+	moduleArray := []module{}
+	fmt.Print(moduleArray)
 	
 	// Create a new application
 	app := tview.NewApplication()
@@ -50,31 +100,46 @@ func main() {
 			AddItem(box2, 0,4,2,6,0,0,false)
 		
 		
+	
+	// Load primitives into struct
+	
+	var boxStruct module
+	boxStruct.textToType = "wowvsjdgfvsdakjg"
+	boxStruct.appRef = map[string]tview.Primitive{
+		"test":emptyBox,
+	}
+	fmt.Print(boxStruct.appRef["test"])
+	
+	
+	
 		
 	// Testing text writing as was hoped.
-	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
-	slicedText := strings.Split(textToBreak, " ")
-	fmt.Print(slicedText)
-	loadedText := ""
+// 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
+// 	slicedText := strings.Split(textToBreak, " ")
+// 	fmt.Print(slicedText)
+// 	loadedText := ""
 	
 	// Handles key capture
-	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
-		switch event.Rune(){
-				//Alphas get captured to simulate typing
-			case 'a','b','c','d','e','f','g','i','m','n','o','p','q','r','s','t','u','v','w','x','y','z','h','j','k','l':
-				// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
-				loadedText += slicedText[0]
-				loadedText += " "
-				slicedText = slicedText[1:]							
-				// Load the array into the textbox
-				emptyBox.SetText(loadedText)
-			
-				//Return nil is important to prevent default key behavior	
-				return nil
-		}			
-		return event		
-	})
+// 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
+// 		switch event.Rune(){
+// 				//Alphas get captured to simulate typing
+// 			case 'a','b','c','d','e','f','g','i','m','n','o','p','q','r','s','t','u','v','w','x','y','z','h','j','k','l':
+// 				// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
+// 				
+// 				loadedText += slicedText[0]
+// 				loadedText += " "
+// 				slicedText = slicedText[1:]							
+// 				// Load the array into the textbox
+// 				emptyBox.SetText(loadedText)
+// 			
+// 				//Return nil is important to prevent default key behavior	
+// 				return nil
+// 		}			
+// 		return event		
+// 	})
 	
+	
+	moduleKeyInput(app,boxStruct)
 	
 	
 		
