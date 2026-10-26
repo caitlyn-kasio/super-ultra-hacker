@@ -4,14 +4,10 @@ package main
 
 import (
 	"fmt"
-	"strings"
-	"unicode"
-
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
-	//	"github.com/gdamore/tcell"
-	//
-	// "time"
+	"unicode"
+	"strings"
 )
 
 
@@ -26,25 +22,20 @@ func main() {
 // 	screen := tview.NewScreen()
 
 	//Initialize modules for grid
-	emptyBox := tview.NewTextView().
-// 		SetTextAlign(tview.AlignCenter.
-		SetScrollable(false).
-		SetText("skdhgskhdgkhsdgkdsg")	
+	emptyBox := tview.NewTextArea().
+// 		SetTextAlign(tview.AlignCenter).
+		SetBorder(true)
+		SetText("skdhgskhdgkhsdgkdsg")		
 		
 	
-
-	menuBar := tview.NewTextView().
+	menuBar := tview.NewTextArea().
 		SetTextAlign(tview.AlignCenter).
 		SetText("Menu bar down here!")
 	
-	// Create a grid layout
-	grid := tview.NewGrid().SetBorders(true).
-		SetRows(6).
-		SetColumns(6)
-
-	// Add the main content window to the grid
-	grid.AddItem(emptyBox, 0, 0, 2, 3, 1, 3, false)
-	grid.AddItem(menuBar, 2, 0, 1, 3, 0, 0, false)
+	// Create a flex layout
+	flex := tview.NewFlex().SetDirection(tview.FlexRow).
+		AddItem(emptyBox, 3, 1, false).
+		AddItem(menuBar, 1, 0, false)
 
 	
 	// Testing text writing as was hoped.
@@ -88,8 +79,8 @@ func main() {
 	
 	
 		
-	// Set the grid for the application
-	app.SetRoot(grid, true)
+	// Set the flex for the application
+	app.SetRoot(flex, true)
 
 	// Start the application
 	if err := app.Run(); err != nil {
