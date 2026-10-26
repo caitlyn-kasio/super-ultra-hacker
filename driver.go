@@ -8,19 +8,13 @@ import (
 	"time"
 )
 
-	//AI! Fix this please, the appIn is undefined. This is an object used by main() passed to this function at runtime
-func updateTime(appIn){
-	app := appIn
-	for{
-		time.Sleep(1)
-		app.QueueUpdateDraw(func(){
-			app.emptyBox.SetText("wow look!!!")
-		})
-	}
+func updateTime(app *tview.Application){
+	app.QueueUpdateDraw(func(){
+		app.emptyBox.SetText("wow look!!!")
+	})
 }
 
 func main() {	
-	
 	// Grab variables
 // 	time := 0
 	
