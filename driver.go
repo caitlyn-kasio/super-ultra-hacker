@@ -4,24 +4,25 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"github.com/rivo/tview"
+	"time"
 )
 
-func redraw(app *tview.Application){
-	
-	// Redraw the app once a second
-	ticker := time.NewTicker(1 * time.Second)
-	for range ticker.C {
-		app.Draw()
+	//AI! Fix this please, the appIn is undefined. This is an object used by main() passed to this function at runtime
+func updateTime(appIn){
+	app := appIn
+	for{
+		time.Sleep(1)
+		app.QueueUpdateDraw(func(){
+			app.emptyBox.SetText("wow look!!!")
+		})
 	}
 }
 
-
-func main() {
+func main() {	
 	
 	// Grab variables
-	now := time.Now().Format(time.RFC3339)
+// 	time := 0
 	
 	// Create a new application
 	app := tview.NewApplication()
@@ -31,8 +32,8 @@ func main() {
 
 	//Initialize modules for grid
 	emptyBox := tview.NewTextView().
-// 		SetDynamic(true).
-		SetText(now)
+// 		SetTextAlign(tview.AlignCenter.
+		SetText("skdhgskhdgkhsdgkdsg")
 
 	menuBar := tview.NewTextView().
 		SetTextAlign(tview.AlignCenter).
@@ -50,13 +51,12 @@ func main() {
 	// Set the grid for the application
 	app.SetRoot(grid, true)
 
-	// Start the redraw ticker before running the app
-	go redraw(app)
-
 	// Start the application
 	if err := app.Run(); err != nil {
 		fmt.Println("Application exited with error:", err)
 	}
+
+	go updateTime(app)
 
 	// Clean up
 // 	screen.Close()
