@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
-	"unicode"
+// 	"unicode"
 	"strings"
 )
 
@@ -27,10 +27,12 @@ func main() {
 
 	//Initialize modules for grid
 	emptyBox := tview.NewTextView().
-		SetText("skdhgskhdgkhsdgkdsg")	
+		SetText("skdhgskhdgkhsdgkdsg").
+		SetScrollable(false)	
 		
 	box2 := tview.NewTextView().
-		SetText("Wow look box2!")	
+		SetText("Wow look box2!").
+		SetScrollable(false)
 		
 		
 	
@@ -59,37 +61,24 @@ func main() {
 	loadedText := ""
 	
 	
-	// Unbind default keys
+	// Handles key capture
 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
 		switch event.Rune(){
-			case 'j':
-				return tcell.NewEventKey(tcell.KeyRune, 'j', tcell.ModNone)
-			case 'k':
-				return tcell.NewEventKey(tcell.KeyRune, 'k', tcell.ModNone)
+				//Alphas get captured to simulate typing
+			case 'a','b','c','d','e','f','g','i','m','n','o','p','q','r','s','t','u','v','w','x','y','z','h','j','k','l':
+				// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
+				loadedText += slicedText[0]
+				loadedText += " "
+				slicedText = slicedText[1:]							
+				// Load the array into the textbox
+				emptyBox.SetText(loadedText)
+			
+				//Return nil is important to prevent default key behavior	
+				return nil
 		}			
 		return event		
 	})
 	
-	
-	// Handles inputs
-	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		if event.Key() == tcell.KeyRune{
-			key := event.Rune()
-			if unicode.IsLetter(key) || unicode.IsDigit(key) {
-						
-				
-			// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
-			loadedText += slicedText[0]
-			loadedText += " "
-			slicedText = slicedText[1:]							
-			// Load the array into the textbox
-			emptyBox.SetText(loadedText)
-				
-			}
-		}
-			
-		return event
-	})
 	
 	
 		
