@@ -22,20 +22,26 @@ func main() {
 // 	screen := tview.NewScreen()
 
 	//Initialize modules for grid
-	emptyBox := tview.NewTextArea().
+	emptyBox := tview.NewTextView().
 // 		SetTextAlign(tview.AlignCenter).
-		SetBorder(true)
 		SetText("skdhgskhdgkhsdgkdsg")		
 		
+	emptyBox.SetBorder(true)
+		
 	
-	menuBar := tview.NewTextArea().
-		SetTextAlign(tview.AlignCenter).
-		SetText("Menu bar down here!")
+	menuBar := tview.NewTextView()
+	menuBar.SetBorder(true).SetTitle("Keybindings")
+		
 	
 	// Create a flex layout
 	flex := tview.NewFlex().SetDirection(tview.FlexRow).
-		AddItem(emptyBox, 3, 1, false).
-		AddItem(menuBar, 1, 0, false)
+		
+	flex.AddItem(menuBar, 5, 1, false).
+	flex.AddItem(tview.NewFlex().SetDirection(tview.FlexRow)).
+		SetBorder(true)
+// 		AddItem(emptyBox, 1, 1, false)
+			
+
 
 	
 	// Testing text writing as was hoped.
