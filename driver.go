@@ -10,20 +10,17 @@ import (
 	"fmt"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
-// 	"unicode"
 	"strings"
 )
 
 
 func main() {	
 	// Grab variables
-// 	time := 0
 	
 	// Create a new application
 	app := tview.NewApplication()
 
 	// Create a new screen
-// 	screen := tview.NewScreen()
 
 	//Initialize modules for grid
 	emptyBox := tview.NewTextView().
@@ -59,7 +56,6 @@ func main() {
 	slicedText := strings.Split(textToBreak, " ")
 	fmt.Print(slicedText)
 	loadedText := ""
-	
 	
 	// Handles key capture
 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
