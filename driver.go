@@ -71,13 +71,11 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 				
 				//Cursor logic
 				loadedText = strings.ReplaceAll(loadedText, "█", "")
-				loadedText += "█"				
+				loadedText += "█"
 				
-				// This mutates the primitive type used by the module struct, allowing the SetText function		
+				// Reset the text being written
 				if module, err := module.primitive.(*tview.TextView); err {
-// 					fmt.Println("boxStuct sucessfully set to TextView
-
-					module.SetText(loadedText)
+					module.SetText("")
 				}
 			
 				//Return nil is important to prevent default key behavior	
