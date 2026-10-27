@@ -27,7 +27,7 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 	
 	module := moduleIn
 	app := application
-	splitByLetter := false
+	splitByLetter := true
 	
 	textToBreak := module.textToType
 	    var slicedText []string
@@ -52,10 +52,21 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 						
 					// Clear the text to make room for more.
 					if module, err := module.primitive.(*tview.TextView); 	err {
-						module.SetText("")
+						module.SetText("End of sliced text")
+						loadedText = ""
+																module.SetText("loadedText")
+						
+						textToBreak := textImport.ReturnString()
+						
+																module.SetText("textToBreak")
+	    					
+	    					if splitByLetter {
+						        for _, char := range textToBreak {
+						            slicedText = append(slicedText, string(char))
+						        }
+						}else {
+						        slicedText = strings.Split(textToBreak, " ")}	
 					}
-					
-					return nil
 				}
 				
 				
@@ -75,7 +86,7 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 				
 				// Reset the text being written
 				if module, err := module.primitive.(*tview.TextView); err {
-					module.SetText("")
+					module.SetText(loadedText)
 				}
 			
 				//Return nil is important to prevent default key behavior	
@@ -84,6 +95,29 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 		return event		
 	})
 	
+}
+
+
+func moduleAutoUpdate(application *tview.Application, moduleIn module){
+	
+	module := moduleIn
+// 	app := application
+	
+	textToRead := textImport.ReturnChat()
+
+	
+	var slicedText []string	
+	slicedText = strings.Split(textToRead,"\n")
+	loadedText := ""
+	
+	
+	loadedText += slicedText[0]
+	slicedText = slicedText[1:]
+	
+		
+	if module, err := module.primitive.(*tview.TextView); err {
+			module.SetText(loadedText)
+	}
 }
 
 
@@ -110,7 +144,8 @@ func main() {
 		
 	box2 := tview.NewTextView().
 		SetText("Wow look box2!").
-		SetScrollable(false)
+		SetScrollable(false).
+		SetDynamicColors(true)
 		
 		
 	
@@ -139,8 +174,12 @@ func main() {
 	boxStruct.gridRef = grid
 	boxStruct.primitive = textBox
 	
-	moduleKeyInput(app,boxStruct)
+	var extraStruct module
+	extraStruct.gridRef = grid
+	extraStruct.primitive = box2
 	
+	moduleKeyInput(app,boxStruct)
+	moduleAutoUpdate(app,extraStruct)
 		
 	// Testing text writing as was hoped.
 // 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
