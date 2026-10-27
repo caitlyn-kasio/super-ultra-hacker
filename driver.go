@@ -31,8 +31,8 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 	
 	module := moduleIn
 	app := application
-	counter := counterIn
 	splitByLetter := true
+	counter := counterIn
 	
 	textToBreak := module.textToType
 	    var slicedText []string
@@ -96,7 +96,6 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 				
 				randCount := rand.Intn(100)
 
-				print(counter)
 				if randCount >= 99{
 					counter += 1		
 					moduleAutoUpdate(app,sugarModule, counter)
@@ -128,7 +127,7 @@ func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn
 	loadedText := ""
 	
 	//AI! Add error handling to this specific for loop. Currently it crashes when slicedText runs out. Have it continue the program please
-	for i := 0; i <= counter; i++{
+	for i := 0; i <= counter && len(slicedText) > 0; i++{
 		loadedText += slicedText[0]
 		loadedText += "\n"
 		slicedText = slicedText[1:]	
