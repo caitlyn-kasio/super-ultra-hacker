@@ -11,13 +11,15 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"strings"
+	"kasio.xyz/m/v2/textImport"
 )
 
 
 type module struct{
 	name string
 	textToType string
-	appRef map[string]tview.Primitive
+	primitive tview.Primitive
+	gridRef *tview.Grid
 }
 
 
@@ -25,14 +27,18 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 	
 	module := moduleIn
 	app := application
+	splitByLetter := true
 	
-		// Testing text writing as was hoped.
-// 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
-
 	textToBreak := module.textToType
-	slicedText := strings.Split(textToBreak, " ")
-// 	fmt.Print(slicedText)
-	loadedText := ""
+	    var slicedText []string
+	    if splitByLetter {
+	        for _, char := range textToBreak {
+	            slicedText = append(slicedText, string(char))
+	        }
+	    } else {
+	        slicedText = strings.Split(textToBreak, " ")
+	    }
+	    loadedText := ""
 	
 	// Handles key capture
 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
@@ -41,17 +47,34 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 			case 'a','b','c','d','e','f','g','i','m','n','o','p','q','r','s','t','u','v','w','x','y','z','h','j','k','l':
 				// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
 			
-				
+				// Activates when there is no more text to type.
 				if len(slicedText) == 0 {
-// 					fmt.Println("No more words to type")
+						
+					// Clear the text to make room for more.
+					if module, err := module.primitive.(*tview.TextView); 	err {
+						module.SetText("")
+					}
 					return nil
 				}
+				
+				
+				
 				loadedText += slicedText[0]
-				loadedText += " "
-				slicedText = slicedText[1:]					
+		
+				if splitByLetter{
+					loadedText += ""
+				}else{
+					loadedText += " "
+				}
+		
+				slicedText = slicedText[1:]
+				
+				//Cursor logic
+				loadedText = strings.ReplaceAll(loadedText, "█", "")
+				loadedText += "█"				
 				
 				// This mutates the primitive type used by the module struct, allowing the SetText function		
-				if module, err := module.appRef["test"].(*tview.TextView); err {
+				if module, err := module.primitive.(*tview.TextView); err {
 // 					fmt.Println("boxStuct sucessfully set to TextView
 
 					module.SetText(loadedText)
@@ -69,6 +92,9 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 
 func main() {
 		
+// 	textIn := textImport.ReturnString()
+// 	fmt.Println(textIn)
+	
 	moduleArray := []module{}
 	fmt.Print(moduleArray)
 	
@@ -78,7 +104,7 @@ func main() {
 	// Create a new screen
 
 	//Initialize modules for grid
-	emptyBox := tview.NewTextView().
+	textBox := tview.NewTextView().
 		SetText("skdhgskhdgkhsdgkdsg").
 		SetScrollable(false)	
 		
@@ -101,7 +127,7 @@ func main() {
 			//RowInt, ColumnInt, RowSpan Int, ColSpan Int, MinGrid Height, MinGridWidth, Focus
 		AddItem(menuBar, 2, 0, 1, 10, 0, 0, false).
 		AddItem(tview.NewGrid(), 0,0,2,10,0,0,false).
-			AddItem(emptyBox, 0, 0, 2, 4, 0, 0, false).
+			AddItem(textBox, 0, 0, 2, 4, 0, 0, false).
 			AddItem(box2, 0,4,2,6,0,0,false)
 		
 		
@@ -109,13 +135,12 @@ func main() {
 	// Load primitives into struct
 	
 	var boxStruct module
-	boxStruct.textToType = "wowvsjdgfvsdakjg sad abskhfgahf ashf gakhg akhfg akshfg aksjg akjfgakuyfg ydufg iygu ksdgh kdsugkds ghsk g"
-	boxStruct.appRef = map[string]tview.Primitive{
-		"test":emptyBox,
-	}
-	fmt.Print(boxStruct.appRef["test"])
+	boxStruct.textToType = textImport.ReturnString()
+	boxStruct.gridRef = grid
+	boxStruct.primitive = textBox
 	
-	
+	moduleKeyInput(app,boxStruct)
+
 	
 		
 	// Testing text writing as was hoped.
@@ -144,7 +169,6 @@ func main() {
 // 	})
 	
 	
-	moduleKeyInput(app,boxStruct)
 	
 	
 		
