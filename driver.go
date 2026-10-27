@@ -8,10 +8,13 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"strings"
+
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
-	"strings"
-	"time"
+
+	// 	"time"
 	"kasio.xyz/m/v2/textImport"
 )
 
@@ -24,11 +27,12 @@ type module struct{
 }
 
 
-func moduleKeyInput(application *tview.Application, moduleIn module){
+func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule module, counterIn int){
 	
 	module := moduleIn
 	app := application
-	splitByLetter := false
+	counter := counterIn
+	splitByLetter := true
 	
 	textToBreak := module.textToType
 	    var slicedText []string
@@ -51,15 +55,13 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 				// Activates when there is no more text to type.
 				if len(slicedText) == 0 {
 						
-					// Clear the text to make room for more.
+					// Clear the text and reset so more text can appear
 					if module, err := module.primitive.(*tview.TextView); 	err {
 						module.SetText("End of sliced text")
 						loadedText = ""
-																module.SetText("loadedText")
-						
+						module.SetText("loadedText")						
 						textToBreak := textImport.ReturnString()
-						
-																module.SetText("textToBreak")
+						module.SetText("textToBreak")
 	    					
 	    					if splitByLetter {
 						        for _, char := range textToBreak {
@@ -69,8 +71,6 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 						        slicedText = strings.Split(textToBreak, " ")}	
 					}
 				}
-				
-				
 				loadedText += slicedText[0]
 		
 				if splitByLetter{
@@ -90,6 +90,21 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 					module.SetText(loadedText)
 				}
 			
+				
+				
+				// Count keystrokes, and on a good number of keystrokes apply an update to the sugar module				
+				
+				randCount := rand.Intn(100)
+
+				print(counter)
+				if randCount >= 99{
+					counter += 1		
+					moduleAutoUpdate(app,sugarModule, counter)
+				}
+				
+				
+				
+				
 				//Return nil is important to prevent default key behavior	
 				return nil
 		}			
@@ -99,10 +114,11 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 }
 
 
-func moduleAutoUpdate(application *tview.Application, moduleIn module){
+func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn int){
 	
 	module := moduleIn
 // 	app := application
+	counter := counterIn
 	
 	textToRead := textImport.ReturnChat()
 
@@ -111,26 +127,23 @@ func moduleAutoUpdate(application *tview.Application, moduleIn module){
 	slicedText = strings.Split(textToRead,"\n")
 	loadedText := ""
 	
-	//AI! Add a ticker here
-	loadedText += slicedText[0]
-	slicedText = slicedText[1:]	
+	//AI! Add error handling to this specific for loop. Currently it crashes when slicedText runs out. Have it continue the program please
+	for i := 0; i <= counter; i++{
+		loadedText += slicedText[0]
+		loadedText += "\n"
+		slicedText = slicedText[1:]	
+	}
+
 	if module, err := module.primitive.(*tview.TextView); err {
-			module.SetText(loadedText)
-			// Add a ticker that runs every 2 seconds and sets the text
-			time.AfterFunc(2*time.Second, func() {
-				if m, ok := module.primitive.(*tview.TextView); ok {
-					m.SetText(loadedText)
-				}
-			})
+		module.SetText(loadedText)				
 	}
 }
 
 
 
 func main() {
-		
-// 	textIn := textImport.ReturnString()
-// 	fmt.Println(textIn)
+	
+	counter := 0
 	
 	moduleArray := []module{}
 	fmt.Print(moduleArray)
@@ -148,7 +161,7 @@ func main() {
 		
 		
 	box2 := tview.NewTextView().
-		SetText("Wow look box2!").
+		SetText("Chat Module").
 		SetScrollable(false).
 		SetDynamicColors(true)
 		
@@ -183,8 +196,9 @@ func main() {
 	extraStruct.gridRef = grid
 	extraStruct.primitive = box2
 	
-	moduleKeyInput(app,boxStruct)
-	moduleAutoUpdate(app,extraStruct)
+	moduleKeyInput(app,boxStruct,extraStruct,counter)
+
+
 		
 	// Testing text writing as was hoped.
 // 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
