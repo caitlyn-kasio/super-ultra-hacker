@@ -27,7 +27,7 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 	
 	module := moduleIn
 	app := application
-	splitByLetter := true
+	splitByLetter := false
 	
 	textToBreak := module.textToType
 	    var slicedText []string
@@ -54,9 +54,9 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 					if module, err := module.primitive.(*tview.TextView); 	err {
 						module.SetText("")
 					}
+					
 					return nil
 				}
-				
 				
 				
 				loadedText += slicedText[0]
@@ -105,8 +105,10 @@ func main() {
 
 	//Initialize modules for grid
 	textBox := tview.NewTextView().
-		SetText("skdhgskhdgkhsdgkdsg").
-		SetScrollable(false)	
+		SetText("Start Typing!").
+		SetScrollable(false).
+		SetDynamicColors(true)
+		
 		
 	box2 := tview.NewTextView().
 		SetText("Wow look box2!").
@@ -140,7 +142,6 @@ func main() {
 	boxStruct.primitive = textBox
 	
 	moduleKeyInput(app,boxStruct)
-
 	
 		
 	// Testing text writing as was hoped.
