@@ -11,6 +11,7 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"strings"
+	"time"
 	"kasio.xyz/m/v2/textImport"
 )
 
@@ -27,7 +28,7 @@ func moduleKeyInput(application *tview.Application, moduleIn module){
 	
 	module := moduleIn
 	app := application
-	splitByLetter := true
+	splitByLetter := false
 	
 	textToBreak := module.textToType
 	    var slicedText []string
@@ -110,13 +111,17 @@ func moduleAutoUpdate(application *tview.Application, moduleIn module){
 	slicedText = strings.Split(textToRead,"\n")
 	loadedText := ""
 	
-	
+	//AI! Add a ticker here
 	loadedText += slicedText[0]
-	slicedText = slicedText[1:]
-	
-		
+	slicedText = slicedText[1:]	
 	if module, err := module.primitive.(*tview.TextView); err {
 			module.SetText(loadedText)
+			// Add a ticker that runs every 2 seconds and sets the text
+			time.AfterFunc(2*time.Second, func() {
+				if m, ok := module.primitive.(*tview.TextView); ok {
+					m.SetText(loadedText)
+				}
+			})
 	}
 }
 
