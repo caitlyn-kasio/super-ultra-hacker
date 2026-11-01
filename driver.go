@@ -27,12 +27,14 @@ type module struct{
 }
 
 
-func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule module, counterIn int){
+func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule module, counterIn int, chatIn string){
 	
 	module := moduleIn
 	app := application
 	splitByLetter := true
 	counter := counterIn
+	textToRead := chatIn
+	
 	
 	textToBreak := module.textToType
 	    var slicedText []string
@@ -96,9 +98,10 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 				
 				randCount := rand.Intn(100)
 
+
 				if randCount >= 99{
 					counter += 1		
-					moduleAutoUpdate(app,sugarModule, counter)
+					moduleAutoUpdate(app,sugarModule, counter, textToRead)
 				}
 				
 				
@@ -113,13 +116,13 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 }
 
 
-func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn int){
+func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn int, textIn string){
 	
 	module := moduleIn
 // 	app := application
 	counter := counterIn
-	
-	textToRead := textImport.ReturnChat()
+	textToRead := textIn	
+
 
 	
 	var slicedText []string	
@@ -143,6 +146,7 @@ func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn
 func main() {
 	
 	counter := 0
+	textToRead := textImport.ReturnChat()
 	
 	moduleArray := []module{}
 	fmt.Print(moduleArray)
@@ -195,38 +199,7 @@ func main() {
 	extraStruct.gridRef = grid
 	extraStruct.primitive = box2
 	
-	moduleKeyInput(app,boxStruct,extraStruct,counter)
-
-
-		
-	// Testing text writing as was hoped.
-// 	textToBreak := "Wow look heres a long string of text look at all the words I can load in\n\n\n wow neat look new lines wheeeeeee"
-// 	slicedText := strings.Split(textToBreak, " ")
-// 	fmt.Print(slicedText)
-// 	loadedText := ""
-	
-	// Handles key capture
-// 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey{
-// 		switch event.Rune(){
-// 				//Alphas get captured to simulate typing
-// 			case 'a','b','c','d','e','f','g','i','m','n','o','p','q','r','s','t','u','v','w','x','y','z','h','j','k','l':
-// 				// Add one word to the string at a time, so it simulates typing. Maybe there should also be a per letter setting?
-// 				
-// 				loadedText += slicedText[0]
-// 				loadedText += " "
-// 				slicedText = slicedText[1:]							
-// 				// Load the array into the textbox
-// 				emptyBox.SetText(loadedText)
-// 			
-// 				//Return nil is important to prevent default key behavior	
-// 				return nil
-// 		}			
-// 		return event		
-// 	})
-	
-	
-	
-	
+	moduleKeyInput(app,boxStruct,extraStruct,counter, textToRead)	
 		
 	// Set the grid for the application
 	app.SetRoot(grid, true)
