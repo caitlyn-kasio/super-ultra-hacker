@@ -92,7 +92,8 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 					module.SetText(loadedText)
 				}
 			
-				
+
+				// TODO!!! Make this reset the chat log when it fills up				
 				
 				// Count keystrokes, and on a good number of keystrokes apply an update to the sugar module				
 				
@@ -129,7 +130,7 @@ func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn
 	slicedText = strings.Split(textToRead,"\n")
 	loadedText := ""
 	
-	//AI! Add error handling to this specific for loop. Currently it crashes when slicedText runs out. Have it continue the program please
+
 	for i := 0; i <= counter && len(slicedText) > 0; i++{
 		loadedText += slicedText[0]
 		loadedText += "\n"
@@ -164,9 +165,13 @@ func main() {
 		
 		
 	box2 := tview.NewTextView().
-		SetText("Chat Module").
+		SetText("").
 		SetScrollable(false).
 		SetDynamicColors(true)
+		
+	candy := tview.NewTextView().
+		SetText("unfinished")
+
 		
 		
 	
@@ -178,13 +183,15 @@ func main() {
 	// Create a grid layout
 	grid := tview.NewGrid().
 		SetBorders(true).
-		SetRows(3, 0, 3).
+		SetRows(4, 0, 4).
 		SetColumns(30, 0, 30).
 			//RowInt, ColumnInt, RowSpan Int, ColSpan Int, MinGrid Height, MinGridWidth, Focus
 		AddItem(menuBar, 2, 0, 1, 10, 0, 0, false).
 		AddItem(tview.NewGrid(), 0,0,2,10,0,0,false).
-			AddItem(textBox, 0, 0, 2, 4, 0, 0, false).
-			AddItem(box2, 0,4,2,6,0,0,false)
+			AddItem(textBox, 0, 0, 2, 6, 0, 0, false).
+			AddItem(tview.NewGrid(), 1,6,1,4,0,0,false).
+				AddItem(candy, 0,6,1,4,0,0,false).
+				AddItem(box2, 1,6,1,4,0,0,false)
 		
 		
 	
