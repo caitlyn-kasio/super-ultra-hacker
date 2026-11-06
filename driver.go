@@ -14,7 +14,6 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
-	// 	"time"
 	"kasio.xyz/m/v2/textImport"
 )
 
@@ -27,7 +26,7 @@ type module struct{
 }
 
 
-func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule module, counterIn int, chatIn string){
+func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule module, counterIn int, chatIn string, candyModule module, candyInt int){
 	
 	module := moduleIn
 	app := application
@@ -99,10 +98,23 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 				
 				randCount := rand.Intn(100)
 
-
+				
 				if randCount >= 99{
 					counter += 1		
 					moduleAutoUpdate(app,sugarModule, counter, textToRead)
+// 					candyInt = 0
+				}
+				
+				if randCount >= (95){
+					// If pulseCandy returns one, select a new int
+					if pulseCandy(app,candyModule, candyInt) == 1{
+						//TODO: Make this select a random int	
+						randInt := rand.Intn(4)
+						if candyInt == randInt{
+							rand.Intn(4)
+						}
+						candyInt = randInt
+					}
 				}
 				
 				
@@ -142,6 +154,55 @@ func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn
 	}
 }
 
+func pulseCandy(application *tview.Application, moduleIn module, currentCandyInt int) int {
+	
+// 	app := application
+	module := moduleIn
+	candySliceInt := currentCandyInt
+	
+	
+	// Detect if current text differs from int
+// 	if module, err := module.primitive.(*tview.TextView); 	err {
+// 		if textImport.ReturnCandy(candySliceInt) != module.GetText(false){
+// 			module.SetText("here")
+// 	}}
+
+	// Get current candy string
+	if module, err := module.primitive.(*tview.TextView); 	err {
+		compareText := module.GetText(false)
+		currentText := module.GetText(false)
+		compareText = strings.ReplaceAll(currentText, ".", "")
+		
+		if compareText == textImport.ReturnCandy(candySliceInt){
+			// String matches current int
+		}else{
+			module.SetText(textImport.ReturnCandy(candySliceInt))
+		}
+		
+			// Detect if theres more than 6 periods, returns 1 if true
+		trailingPeriods := len(currentText) -
+	len(strings.TrimRight(currentText, "."))
+		
+		if trailingPeriods > 6{
+			return 1
+		}else{
+		
+			// Add to current string, separated by semicolon
+			currentText += "."
+			module.SetText(currentText)
+			return 0
+		}	
+		
+		
+	}
+
+		
+	
+	
+
+	return 0	
+}
+
 
 
 func main() {
@@ -170,7 +231,9 @@ func main() {
 		SetDynamicColors(true)
 		
 	candy := tview.NewTextView().
-		SetText("unfinished")
+		SetText(textImport.ReturnCandy(1)).
+		SetDynamicColors(true).
+		SetTextAlign(tview.AlignCenter)
 
 		
 		
@@ -206,7 +269,13 @@ func main() {
 	extraStruct.gridRef = grid
 	extraStruct.primitive = box2
 	
-	moduleKeyInput(app,boxStruct,extraStruct,counter, textToRead)	
+	var candyStruct module
+	candyStruct.gridRef = grid
+	candyStruct.primitive = candy
+	
+	candyInt := 1
+	
+	moduleKeyInput(app,boxStruct,extraStruct,counter, textToRead, candyStruct, candyInt )	
 		
 	// Set the grid for the application
 	app.SetRoot(grid, true)

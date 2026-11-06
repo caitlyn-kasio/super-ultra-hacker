@@ -39,3 +39,16 @@ func ReturnChat() string {
 	
 	return stringSlice[randSlice]
 }
+
+func ReturnCandy(sliceint int) string {
+	
+	stringSlice := []string{}
+	
+	stringSlice = append(stringSlice, "[red::b]Hacking the Mainframe")
+	stringSlice = append(stringSlice, "[red::b]Pwning n00bs")
+	stringSlice = append(stringSlice, "[red::b]Gaining access")
+	stringSlice = append(stringSlice, "[red::b]Executing exploit")
+	stringSlice = append(stringSlice, "[red::b]Collecting data")
+	
+	return stringSlice[sliceint]
+}
