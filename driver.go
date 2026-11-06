@@ -92,26 +92,32 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 				}
 			
 
-				// TODO!!! Make this reset the chat log when it fills up				
-				
-				// Count keystrokes, and on a good number of keystrokes apply an update to the sugar module				
+				// TODO!!! Make this reset the chat log when it fills up								
 				
 				randCount := rand.Intn(100)
 
 				
 				if randCount >= 99{
 					counter += 1		
-					moduleAutoUpdate(app,sugarModule, counter, textToRead)
+					if moduleAutoUpdate(app,sugarModule,counter, textToRead) == 1{
+// 						println() // Reaches here 
+						textToRead=textImport.ReturnChat()
+						counter = 0
+						
+						
+						
+					}
 // 					candyInt = 0
 				}
 				
+							
 				if randCount >= (95){
 					// If pulseCandy returns one, select a new int
 					if pulseCandy(app,candyModule, candyInt) == 1{
 						//TODO: Make this select a random int	
-						randInt := rand.Intn(4)
+						randInt := rand.Intn(13)
 						if candyInt == randInt{
-							rand.Intn(4)
+							rand.Intn(13)
 						}
 						candyInt = randInt
 					}
@@ -129,7 +135,7 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 }
 
 
-func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn int, textIn string){
+func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn int, textIn string) int{
 	
 	module := moduleIn
 // 	app := application
@@ -142,16 +148,27 @@ func moduleAutoUpdate(application *tview.Application, moduleIn module, counterIn
 	slicedText = strings.Split(textToRead,"\n")
 	loadedText := ""
 	
+	
 
 	for i := 0; i <= counter && len(slicedText) > 0; i++{
 		loadedText += slicedText[0]
 		loadedText += "\n"
 		slicedText = slicedText[1:]	
 	}
+	
+		// Detect if the chat has reached the end
+	loadedTextCompare := strings.ReplaceAll(loadedText, "\n", "")
+	textToReadCompare := strings.ReplaceAll(textToRead, "\n", "")
+	
+	if loadedTextCompare == textToReadCompare{
+		return 1
+	}
 
+	
 	if module, err := module.primitive.(*tview.TextView); err {
 		module.SetText(loadedText)				
 	}
+	return 0
 }
 
 func pulseCandy(application *tview.Application, moduleIn module, currentCandyInt int) int {
