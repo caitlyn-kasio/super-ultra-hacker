@@ -72,7 +72,10 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 						        slicedText = strings.Split(textToBreak, " ")}	
 					}
 				}
-				loadedText += slicedText[0]
+				
+				if len(slicedText) != 0 {
+					loadedText += slicedText[0]
+				}
 		
 				if splitByLetter{
 					loadedText += ""
@@ -80,7 +83,9 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 					loadedText += " "
 				}
 		
-				slicedText = slicedText[1:]
+				if len(slicedText) != 0{
+					slicedText = slicedText[1:]
+				}
 				
 				//Cursor logic
 				loadedText = strings.ReplaceAll(loadedText, "█", "")
@@ -90,9 +95,7 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 				if module, err := module.primitive.(*tview.TextView); err {
 					module.SetText(loadedText)
 				}
-			
-
-				// TODO!!! Make this reset the chat log when it fills up								
+											
 				
 				randCount := rand.Intn(100)
 
@@ -101,6 +104,8 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 					counter += 1		
 					if moduleAutoUpdate(app,sugarModule,counter, textToRead) == 1{
 // 						println() // Reaches here 
+						textToRead=textImport.ReturnChat()
+
 						textToRead=textImport.ReturnChat()
 						counter = 0
 						
@@ -115,9 +120,9 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 					// If pulseCandy returns one, select a new int
 					if pulseCandy(app,candyModule, candyInt) == 1{
 						//TODO: Make this select a random int	
-						randInt := rand.Intn(13)
+						randInt := rand.Intn(11)
 						if candyInt == randInt{
-							rand.Intn(13)
+							rand.Intn(11)
 						}
 						candyInt = randInt
 					}
@@ -256,7 +261,8 @@ func main() {
 		
 	
 	menuBar := tview.NewTextView().
-		SetText("Ctrl+C to exit.")
+		SetText("Ctrl+C to exit. Any alphabetic key will interact with the program.").
+		SetTextAlign(tview.AlignCenter)
 	// 	menuBar.SetBorder(true)
 		
 	
