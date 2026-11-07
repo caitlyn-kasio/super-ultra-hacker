@@ -95,7 +95,9 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 				if module, err := module.primitive.(*tview.TextView); err {
 					module.SetText(loadedText)
 				}
-											
+			
+
+								
 				
 				randCount := rand.Intn(100)
 
