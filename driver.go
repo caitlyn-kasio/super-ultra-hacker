@@ -1,8 +1,6 @@
-//So from here.
-// Need to move text input/word writing logic to a separate function and add error handling. We want this to import text and text styling, so creating a class and instaciating at runtime is the best option.
-//Figure out why vim navigation is still working and stop it
-//Start writing modules to load?
-//Polish and style
+// TODO
+// Args, allow for text by letter or by word
+
 
 package main
 
@@ -122,9 +120,9 @@ func moduleKeyInput(application *tview.Application, moduleIn module, sugarModule
 					// If pulseCandy returns one, select a new int
 					if pulseCandy(app,candyModule, candyInt) == 1{
 						//TODO: Make this select a random int	
-						randInt := rand.Intn(11)
+						randInt := rand.Intn(39)
 						if candyInt == randInt{
-							rand.Intn(11)
+							rand.Intn(39)
 						}
 						candyInt = randInt
 					}
